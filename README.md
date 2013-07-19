@@ -29,6 +29,7 @@ Requirements
 ============
 
 * Maestro 4.16+
+* MongoDB (--rest enabled)
 * Oracle JDK 1.6+
 * Pentaho Data Integration (http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.4.0-stable/)
 * Pentaho Report Designer (http://sourceforge.net/projects/jfreereport/files/04.%20Report%20Designer/3.9.1-stable/) - _Optional_
@@ -52,7 +53,8 @@ Create a new PostgreSQL database
 
     createdb -U maestro -h localhost -W maestro_stats # OR as postgres admin...
     createdb -O maestro maestro_stats
-    
+
+
 Change to the maestro-report-examples directory
 
     cd maestro-report-examples
@@ -61,7 +63,13 @@ Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
 
     psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
     
-Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
+Edit the simple-jndi/*.properties files to reflect your Maestro Stats PostgreSQL database & credentials.
+
+    maestro_stats/type=javax.sql.DataSource
+    maestro_stats/driver=org.postgresql.Driver
+    maestro_stats/user=maestro
+    maestro_stats/password=<password>
+    maestro_stats/url=dbc:postgresql://localhost:5432/maestro_stats
 
 Execute the database ETL script, which pushed data from MongoDB into PostgreSQL.  The maestro_mongodb_pg_export job can take
 several database connection parameters as needed: db_hostname, db_port, db_database, db_username, db_password.
@@ -110,4 +118,27 @@ Execute a report job with the desired input report and output filename.  For exa
     $KETTLE_HOME/kitchen.sh -file reports/generate_pdf_report.kjb -param:report_input_file=reports/maestro_build_stability_report.prpt -param:report_output_file=out/maestro_build_stability_report.pdf
 
 The above reports will be written to the _out_ directory with maestro-report-examples as PDFs.
-  
+
+
+Notes
+=====
+
+**More Tools**
+
+Other freely available tools also exist for creating reports from MongoDB, including but not limited to:
+
+* [BIRT](http://www.eclipse.org/birt/)
+* [Jaspersoft iReport Designer](http://community.jaspersoft.com/project/ireport-designer)
+
+
+**MongoDB Tweaks**
+
+Some MongoDB-related tools will require that your MongoDB instance be configured to 
+allow queries through its restful interface.  This can be accomplished in a couple different ways:
+
+    # execute monogod with the --rest flag
+    ./mongod --rest
+    
+    # modify the mongod configuration file (/etc/mongod.conf) to include the flag
+    rest=true
+
