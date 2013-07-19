@@ -1,9 +1,9 @@
 Maestro Report Examples
 =======================
 
-This package contains examples that show how to export data from a Maestro
-Stats MongoDB instance into PostgreSQL and provide some reporting on top of
-that data.
+This package contains scripts that provide a way to export data from a Maestro
+Stats MongoDB instance into a PostgreSQL database for reporting.  There are also 
+example reports that use the resulting exported data.
 
 Structure
 =========
