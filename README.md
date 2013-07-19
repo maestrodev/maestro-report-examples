@@ -37,26 +37,39 @@ Requirements
 Running
 =======
 
-Exporting data from Maestro Stats database (MongoDB) into PostgreSQL for reporting:
+**Exporting data from Maestro Stats database (MongoDB) into PostgreSQL**
 
 
-* Fetch and unbundle this package onto your Maestro server
-* Configure ENV variables
-   * PENTAHO_JAVA_HOME=\<path_to_oracle_jdk\>     # e.g. export PENTAHO_JAVA_HOME=~/jdk1.7.0_25
-   * KETTLE_HOME=\<path_to_data_integration_dir\>  # e.g. export KETTLE_HOME=~/data-integration
-* Create a new PostgreSQL database
-   * createdb -U maestro -h localhost -W maestro_stats # *-or-* as admin
-   * createdb -O maestro maestro_stats
-* Change to the maestro-report-examples directory
-   * cd maestro-report-examples
-* Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
-   * psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
-* Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
-* $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=\<dbname\> -param:db_password=\<password\>
+Fetch and unbundle this package onto your Maestro server
 
+    git clone https://github.com/maestrodev/maestro-report-examples.git  # git
+    wget https://repo.maestrodev.com/maestro-report-examples.latest.tgz  # wget
 
-This final step should run without errors and look something like this:
+Configure ENV variables
 
+    PENTAHO_JAVA_HOME=<path_to_oracle_jdk>     # e.g. export PENTAHO_JAVA_HOME=~/jdk1.7.0_25
+    KETTLE_HOME=<path_to_data_integration_dir>  # e.g. export KETTLE_HOME=~/data-integration
+    
+Create a new PostgreSQL database
+
+    createdb -U maestro -h localhost -W maestro_stats # OR as postgres admin...
+    createdb -O maestro maestro_stats
+    
+Change to the maestro-report-examples directory
+
+    cd maestro-report-examples
+    
+Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
+
+    psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
+    
+Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
+
+Execute the database ETL script, which pushed data from MongoDB into PostgreSQL
+
+    $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=\<dbname\> -param:db_password=\<password\>
+
+This final step should have run without errors and look something like the following:
 
     [user@maestro maestro-report-examples]$ $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=maestro_stats -param:db_password=maestro
     WARN  18-07 18:15:44,246 - Unable to load Hadoop Configuration from "file:///home/user/data-integration/plugins/pentaho-big-data-plugin/hadoop-configurations/mapr". For more information enable debug logging.
@@ -80,6 +93,22 @@ This final step should run without errors and look something like this:
     INFO  18-07 18:16:49,916 - Kitchen - Processing ended after 1 minutes and 5 seconds (65 seconds total).
 
 
-And the _**postgresql export**_ output step should show the number of records successfully exported (e.g. W=19610).
+And the _postgresql export_ output step should show the number of records successfully exported (e.g. W=19610).
 
 
+**Generating example reports**
+
+Change to the maestro-report-examples directory
+
+    cd maestro-report-examples
+    
+Execute a report job with the desired input report and output filename.  For example:
+
+    # Recent Builds Report
+    $KETTLE_HOME/kitchen.sh -file reports/generate_pdf_report.kjb -param:report_input_file=reports/maestro_recent_build_report.prpt -param:report_output_file=out/maestro_recent_build_report.pdf
+    
+    # Build Stability Report
+    $KETTLE_HOME/kitchen.sh -file reports/generate_pdf_report.kjb -param:report_input_file=reports/maestro_build_stability_report.prpt -param:report_output_file=out/maestro_build_stability_report.pdf
+
+The above reports will be written to the _out_ directory with maestro-report-examples as PDFs.
+  
