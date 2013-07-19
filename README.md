@@ -48,7 +48,7 @@ Exporting data from Maestro Stats database (MongoDB) into PostgreSQL for reporti
        * createdb -O maestro maestro_stats
     4. Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
        * psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
-    5. Edit the simple-jndi/\*.properties files to match the PostgreSQL database & credentials to be used.
+    5. Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
     6. $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=<dbname> -param:db_password=<password>
 
 This should run without errors and look something like this:
