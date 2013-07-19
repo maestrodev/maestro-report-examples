@@ -29,7 +29,6 @@ Requirements
 ============
 
 * Maestro 4.16+
-* MongoDB (--rest enabled)
 * Oracle JDK 1.6+
 * Pentaho Data Integration (http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.4.0-stable/)
 * Pentaho Report Designer (http://sourceforge.net/projects/jfreereport/files/04.%20Report%20Designer/3.9.1-stable/) - _Optional_
