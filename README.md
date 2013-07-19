@@ -29,31 +29,57 @@ Structure
 Requirements
 ============
 
-1. Maestro 4.16+
-2. Oracle JDK 1.6+
-3. Pentaho Data Integration (http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.4.0-stable/)
-4. Pentaho Report Designer (http://sourceforge.net/projects/jfreereport/files/04.%20Report%20Designer/3.9.1-stable/) - *_Optional_*
+* Maestro 4.16+
+* Oracle JDK 1.6+
+* Pentaho Data Integration (http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.4.0-stable/)
+* Pentaho Report Designer (http://sourceforge.net/projects/jfreereport/files/04.%20Report%20Designer/3.9.1-stable/) - _Optional_
 
 Running
 =======
 
 Exporting data from Maestro Stats database (MongoDB) into PostgreSQL for reporting:
 
-    1. Fetch and unbundle this package onto your Maestro server
-    2. Configure ENV variables
-       * PENTAHO_JAVA_HOME=<path_to_oracle_jdk>     # e.g. export PENTAHO_JAVA_HOME=~/jdk1.7.0_25
-       * KETTLE_HOME=<path_to_data_integration_dir>  # e.g. export KETTLE_HOME=~/data-integration
-    3. Create a new PostgreSQL database
-       * createdb -U maestro -h localhost -W maestro_stats # *-or-* as admin
-       * createdb -O maestro maestro_stats
-    3. Change to the maestro-report-examples directory
-       * cd maestro-report-examples
-    4. Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
-       * psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
-    5. Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
-    6. $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=<dbname> -param:db_password=<password>
 
-This should run without errors and look something like this:
+* Fetch and unbundle this package onto your Maestro server
+* Configure ENV variables
+   * PENTAHO_JAVA_HOME=\<path_to_oracle_jdk\>     # e.g. export PENTAHO_JAVA_HOME=~/jdk1.7.0_25
+   * KETTLE_HOME=\<path_to_data_integration_dir\>  # e.g. export KETTLE_HOME=~/data-integration
+* Create a new PostgreSQL database
+   * createdb -U maestro -h localhost -W maestro_stats # *-or-* as admin
+   * createdb -O maestro maestro_stats
+* Change to the maestro-report-examples directory
+   * cd maestro-report-examples
+* Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
+   * psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
+* Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
+* $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=\<dbname\> -param:db_password=\<password\>
 
+
+This final step should run without errors and look something like this:
+
+
+    [user@maestro maestro-report-examples]$ $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=maestro_stats -param:db_password=maestro
+    WARN  18-07 18:15:44,246 - Unable to load Hadoop Configuration from "file:///home/user/data-integration/plugins/pentaho-big-data-plugin/hadoop-configurations/mapr". For more information enable debug logging.
+    INFO  18-07 18:15:44,340 - Kitchen - Start of run.
+    INFO  18-07 18:15:44,435 - maestro_mongodb_pg_export - Start of job execution
+    INFO  18-07 18:15:44,441 - maestro_mongodb_pg_export - Starting entry [Maestro MongoDB PG Export Transformation]
+    INFO  18-07 18:15:44,449 - Maestro MongoDB PG Export Transformation - Loading transformation from XML file [file:///home/user/maestro-report-examples/etl/maestro_mongodb_pg_export.ktr]
+    INFO  18-07 18:15:44,722 - maestro_mongodb_pg_export - Dispatching started for transformation [maestro_mongodb_pg_export]
+    INFO  18-07 18:16:24,817 - MongoDb Input - Finished processing (I=0, O=0, R=0, W=19610, U=0, E=0)
+    INFO  18-07 18:16:49,868 - Json Input - Finished processing (I=19610, O=0, R=19610, W=19610, U=0, E=0)
+    INFO  18-07 18:16:49,870 - Create success_int - Finished processing (I=0, O=0, R=19610, W=19610, U=0, E=0)
+    INFO  18-07 18:16:49,872 - Create failure_int - Finished processing (I=0, O=0, R=19610, W=19610, U=0, E=0)
+    INFO  18-07 18:16:49,874 - Select values - Finished processing (I=0, O=0, R=19610, W=19610, U=0, E=0)
+    INFO  18-07 18:16:49,905 - postgresql export - Finished processing (I=19610, O=0, R=19610, W=19610, U=0, E=0)
+    INFO  18-07 18:16:49,911 - maestro_mongodb_pg_export - Starting entry [Success]
+    INFO  18-07 18:16:49,913 - maestro_mongodb_pg_export - Finished job entry [Success] (result=[true])
+    INFO  18-07 18:16:49,914 - maestro_mongodb_pg_export - Finished job entry [Maestro MongoDB PG Export Transformation] (result=[true])
+    INFO  18-07 18:16:49,914 - maestro_mongodb_pg_export - Job execution finished
+    INFO  18-07 18:16:49,915 - Kitchen - Finished!
+    INFO  18-07 18:16:49,916 - Kitchen - Start=2013/07/18 18:15:44.342, Stop=2013/07/18 18:16:49.915
+    INFO  18-07 18:16:49,916 - Kitchen - Processing ended after 1 minutes and 5 seconds (65 seconds total).
+
+
+And the _**postgresql export**_ output step should show the number of records successfully exported (e.g. W=19610).
 
 
