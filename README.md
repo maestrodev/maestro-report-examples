@@ -71,7 +71,7 @@ Edit the simple-jndi/*.properties files to reflect your Maestro Stats PostgreSQL
     maestro_stats/url=dbc:postgresql://localhost:5432/maestro_stats
 
 Execute the database ETL script, which pushed data from MongoDB into PostgreSQL.  The maestro_mongodb_pg_export job can take
-several database connection parameters as needed: db_hostname, db_port, db_database, db_username, db_password.
+several connection parameters to connect to your PostgreSQL database as needed: db_hostname, db_port, db_database, db_username, db_password.
 
     $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=<dbname> -param:db_password=<password>
 
@@ -140,4 +140,6 @@ allow queries through its restful interface.  This can be accomplished in a coup
     
     # modify the mongod configuration file (/etc/mongod.conf) to include the flag
     rest=true
+    
+    # modify the mongod configuration file to make sure mongod does not bind only to 127.0.0.1 in case the export process complains it cannot connect to it.
 
