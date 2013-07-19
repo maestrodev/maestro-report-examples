@@ -14,8 +14,7 @@ Structure
     │   ├── maestro_mongodb_pg_export.sql         # sql script to generate maestro_stats db for reporting
     │   └── maestro_mongodb_pg_export.kjb         # kettle job script that executes the transformation
     ├── jndi
-    │   ├── default.properties                    # jndi example to be located in ~/.pentaho/simple-jndi/default.properties
-    │   └── jdbc.properties                       # jndi exmaple to be located in <data-integration-dir>/simple-jndi/jdbc.properties
+    │   └── jdbc.properties                       # jndi connection info that should be modified to match your maestro_stats DB
     └── reports
         ├── generate_pdf_report.kjb               # generic report running job script that targets the PDF transformation
         ├── generate_pdf_report.ktr               # generic report transformation script that outputs a PDF
@@ -43,7 +42,6 @@ Running
 Fetch and unbundle this package onto your Maestro server
 
     git clone https://github.com/maestrodev/maestro-report-examples.git  # git
-    wget https://repo.maestrodev.com/maestro-report-examples.latest.tgz  # wget
 
 Configure ENV variables
 
@@ -68,7 +66,7 @@ Edit the simple-jndi/*.properties files to match the PostgreSQL database & crede
 Execute the database ETL script, which pushed data from MongoDB into PostgreSQL.  The maestro_mongodb_pg_export job can take
 several database connection parameters as needed: db_hostname, db_port, db_database, db_username, db_password.
 
-    $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=\<dbname\> -param:db_password=\<password\>
+    $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=<dbname> -param:db_password=<password>
 
 This final step should have run without errors and look something like the following:
 
