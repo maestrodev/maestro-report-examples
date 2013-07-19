@@ -29,9 +29,9 @@ Requirements
 ============
 
 * Maestro 4.16+
-* Oracle JDK 1.6+
-* Pentaho Data Integration (http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.4.0-stable/)
-* Pentaho Report Designer (http://sourceforge.net/projects/jfreereport/files/04.%20Report%20Designer/3.9.1-stable/) - _Optional_
+* [Oracle JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Pentaho Data Integration](http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.4.0-stable/)
+* [Pentaho Report Designer](http://sourceforge.net/projects/jfreereport/files/04.%20Report%20Designer/3.9.1-stable/) - _Optional_
 
 Running
 =======
