@@ -65,7 +65,8 @@ Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
     
 Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
 
-Execute the database ETL script, which pushed data from MongoDB into PostgreSQL
+Execute the database ETL script, which pushed data from MongoDB into PostgreSQL.  The maestro_mongodb_pg_export job can take
+several database connection parameters as needed: db_hostname, db_port, db_database, db_username, db_password.
 
     $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=\<dbname\> -param:db_password=\<password\>
 
