@@ -41,15 +41,15 @@ Exporting data from Maestro Stats database (MongoDB) into PostgreSQL for reporti
 
     1. Fetch and unbundle this package onto your Maestro server
     2. Configure ENV variables
-       * \_PENTAHO\_JAVA\_HOME=<path\_to\_oracle\_jdk>     # e.g. export _PENTAHO_JAVA_HOME=~/jdk1.7.0_25
-       * \KETTLE\_HOME=<path\_to\_data\_integration\_dir>  # e.g. export KETTLE_HOME=~/data-integration
+       * _PENTAHO_JAVA_HOME=<path_to_oracle_jdk>     # e.g. export _PENTAHO_JAVA_HOME=~/jdk1.7.0_25
+       * KETTLE_HOME=<path_to_data_integration_dir>  # e.g. export KETTLE_HOME=~/data-integration
     3. Create a new PostgreSQL database
-       * createdb -U maestro -h localhost -W maestro\_stats # *-or-* as admin
+       * createdb -U maestro -h localhost -W maestro_stats # *-or-* as admin
        * createdb -O maestro maestro_stats
-    4. Execute the etl/maestro\_mongodb\_pg\_export.sql SQL script on this database
-       * psql -U maestro -h localhost -W -f etl/maestro\_mongodb\_pg\_export.sql maestro\_stats)
+    4. Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
+       * psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
     5. Edit the simple-jndi/\*.properties files to match the PostgreSQL database & credentials to be used.
-    6. $KETTLE\_HOME/kitchen.sh -file etl/maestro\_mongodb\_pg\_export.kjb -param:db\_database=<dbname> \-param:db\_password=<password>
+    6. $KETTLE_HOME/kitchen.sh -file etl/maestro_mongodb_pg_export.kjb -param:db_database=<dbname> -param:db_password=<password>
 
 This should run without errors and look something like this:
 
