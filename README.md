@@ -141,5 +141,6 @@ allow queries through its restful interface.  This can be accomplished in a coup
     # modify the mongod configuration file (/etc/mongod.conf) to include the flag
     rest=true
     
-    # modify the mongod configuration file to make sure mongod does not bind only to 127.0.0.1 in case the export process complains it cannot connect to it.
+    # modify the mongod configuration file to make sure mongod does not bind only to 127.0.0.1 in 
+      case the export process complains it cannot connect to it.
 
