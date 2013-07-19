@@ -41,11 +41,13 @@ Exporting data from Maestro Stats database (MongoDB) into PostgreSQL for reporti
 
     1. Fetch and unbundle this package onto your Maestro server
     2. Configure ENV variables
-       * _PENTAHO_JAVA_HOME=<path_to_oracle_jdk>     # e.g. export _PENTAHO_JAVA_HOME=~/jdk1.7.0_25
+       * PENTAHO_JAVA_HOME=<path_to_oracle_jdk>     # e.g. export PENTAHO_JAVA_HOME=~/jdk1.7.0_25
        * KETTLE_HOME=<path_to_data_integration_dir>  # e.g. export KETTLE_HOME=~/data-integration
     3. Create a new PostgreSQL database
        * createdb -U maestro -h localhost -W maestro_stats # *-or-* as admin
        * createdb -O maestro maestro_stats
+    3. Change to the maestro-report-examples directory
+       * cd maestro-report-examples
     4. Execute the etl/maestro_mongodb_pg_export.sql SQL script on this database
        * psql -U maestro -h localhost -W -f etl/maestro_mongodb_pg_export.sql maestro_stats)
     5. Edit the simple-jndi/*.properties files to match the PostgreSQL database & credentials to be used.
