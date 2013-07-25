@@ -43,6 +43,10 @@ Fetch and unbundle this package onto your Maestro server
 
     git clone https://github.com/maestrodev/maestro-report-examples.git  # git
 
+Download and unbundle [Pentaho Data Integration](http://sourceforge.net/projects/pentaho/files/Data%20Integration/4.4.0-stable/)
+
+    tar -zxvf pdi-ce-4.4.0-stable.tar.gz # this will create a data-integration folder used in the next step
+
 Configure ENV variables
 
     PENTAHO_JAVA_HOME=<path_to_oracle_jdk>     # e.g. export PENTAHO_JAVA_HOME=~/jdk1.7.0_25
